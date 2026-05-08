@@ -21,7 +21,7 @@ for entry in path.split(os.pathsep):
 connection_string = os.environ.get("MONGO_CONNECTION_STRING")
 
 if not connection_string:
-    print("\nFehler: Umgebungsvariable 'MONGO_CONNECTION_STRING' ist nicht gesetzt.")
+    print("\nFehler: Umgebungsvariable 'MONGO_CONNECTION_STRING' ist nicht gesetzt")
     print("Bitte setzen Sie die Variable z.B. mit:")
     print("  PowerShell: $env:MONGO_CONNECTION_STRING = \"mongodb+srv://user:pass@cluster.mongodb.net/\"")
     exit(1)

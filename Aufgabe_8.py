@@ -53,7 +53,7 @@ def draw_single_polygon():
     draw.text((10, 10), name, fill=(255, 255, 255))
 
     im.show()
-    print(f"Polygon '{name}' gezeichnet.")
+    print(f"Polygon '{name}' gezeichnet")
 
 
 def draw_all_polygons():
