@@ -64,7 +64,7 @@ def searchRestaurants():
             if choice.isdigit() and 1 <= int(choice) <= len(results):
                 selected = results[int(choice) - 1]
                 break
-            print(f"Bitte eine Zahl zwischen 1 und {len(results)} eingeben.")
+            print(f"Bitte eine Zahl zwischen 1 und {len(results)} eingeben")
 
     print(f"\nAusgewählt: {selected['name']}")
     return selected["_id"]
@@ -79,7 +79,7 @@ def addBewertung(restaurant_id):
         if score.isdigit():
             score = int(score)
             break
-        print("Bitte eine gültige ganze Zahl eingeben.")
+        print("Bitte eine gültige ganze Zahl eingeben")
 
     new_grade = {
         "date": datetime.now(),
@@ -91,11 +91,25 @@ def addBewertung(restaurant_id):
         {"_id": restaurant_id},
         {"$push": {"grades": new_grade}}
     )
-    print("Bewertung erfolgreich hinzugefügt.")
+    print("Bewertung erfolgreich hinzugefügt")
+
+def findNearestToLePerigord():
+    collectionRestaurants.create_index([("address.coord", "2d")])
+    le_perigord = collectionRestaurants.find_one({"name": "Le Perigord"})
+    if not le_perigord:
+        print("Le Perigord not found.")
+        return
+    lon, lat = le_perigord["address"]["coord"]
+    result = collectionRestaurants.find_one({
+        "address.coord": {"$near": [lon, lat]},
+        "name": {"$ne": "Le Perigord"}
+    })
+    print(f"\nNächstes Restaurant zu Le Perigord: {result['name']} ({result['borough']})")
 
 def main():
     printStadtbezirken()
     printTop3Restaurants()
+    findNearestToLePerigord()
     restaurant_id = searchRestaurants()
     if restaurant_id is not None:
         addBewertung(restaurant_id)
